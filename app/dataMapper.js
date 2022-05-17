@@ -14,6 +14,11 @@ const dataMapper = {
     return results.rows[0];
   },
 
+  async getReviews(id) {
+    const sqlQuery = `SELECT * FROM "review" WHERE "figurine_id" = $1`;
+    const results = await client.query(sqlQuery, [id]);
+    return results.rows;
+  }
 };
 
 module.exports = dataMapper;

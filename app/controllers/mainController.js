@@ -20,10 +20,13 @@ const mainController = {
   // méthode pour la page article
   articlePage: async(req, res, next) => {
     const id = +req.params.id;
-    try {     
+    
+    try {  
+      const modals = await dataMapper.getReviews(id);        
       const oneFig = await dataMapper.getOneFigurine(id);   
       res.render('article', {
-      oneFig
+      oneFig,
+      modals
       });     
     } catch (error) {
       res.status(500).send(error);
