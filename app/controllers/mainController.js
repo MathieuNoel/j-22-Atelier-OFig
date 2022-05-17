@@ -1,19 +1,34 @@
-const path = require('path');
+const dataMapper = require('../dataMapper');
+
 
 const mainController = {
 
   // méthode pour la page d'accueil
-  homePage: (request, response) => {
-    const filePath = path.resolve(__dirname + '/../../integration/accueil.html');
-    response.sendFile(filePath);
+ homePage :  async(_, res, next) => {
+   try {
+     const allFig = await dataMapper.getAllFigurines();
+    res.render('accueil', {
+      allFig
+    });
+   } catch (error) {
+     
+    
+   }
+    
   },
 
   // méthode pour la page article
-  articlePage: (request, response) => {
-    const filePath = path.resolve(__dirname + '/../../integration/article.html');
-    response.sendFile(filePath);
+  articlePage: async(req, res, next) => {
+    const id = +req.params.id;
+    try {     
+      const oneFig = await dataMapper.getOneFigurine(id);   
+      res.render('article', {
+      oneFig
+      });     
+    } catch (error) {
+      res.status(500).send(error);
+    }    
   }
-
 };
 
 
